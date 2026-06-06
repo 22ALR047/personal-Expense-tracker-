@@ -286,7 +286,7 @@ export default function SparkChat({ currentUser, transactions = [] }) {
       {/* ── Floating Bubble Button ── */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#207561] text-white shadow-xl shadow-[#207561]/40 flex items-center justify-center cursor-pointer hover:bg-[#1b6351] hover:scale-105 active:scale-95 transition-all duration-200"
+        className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-[#207561] text-white shadow-xl shadow-[#207561]/40 flex items-center justify-center cursor-pointer hover:bg-[#1b6351] hover:scale-105 active:scale-95 transition-all duration-200"
         title="Chat with Spark AI"
       >
         {open ? (
@@ -307,7 +307,7 @@ export default function SparkChat({ currentUser, transactions = [] }) {
 
       {/* ── Chat Panel ── */}
       {open && (
-        <div className="fixed bottom-24 right-0 sm:right-6 z-50 w-full sm:w-[340px] max-w-[calc(100vw-32px)] sm:max-w-none max-h-[520px] flex flex-col rounded-3xl shadow-2xl shadow-black/20 border border-slate-100 dark:border-[#22223a] bg-white dark:bg-[#16162a] overflow-hidden mx-4 sm:mx-0"
+        <div className="fixed bottom-24 left-0 sm:left-6 z-50 w-full sm:w-[340px] max-w-[calc(100vw-32px)] sm:max-w-none max-h-[520px] flex flex-col rounded-3xl shadow-2xl shadow-black/20 border border-slate-100 dark:border-[#22223a] bg-white dark:bg-[#16162a] overflow-hidden mx-4 sm:mx-0"
           style={{ animation: 'sparkSlideUp 0.25s cubic-bezier(0.34,1.56,0.64,1)' }}>
 
           <style>{`

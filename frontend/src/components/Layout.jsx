@@ -246,7 +246,7 @@ export default function Layout({ currentUser, onLogout, isDark, setIsDark, trans
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 p-5 sm:p-7 lg:p-8 overflow-y-auto bg-[#eef2f7] dark:bg-[#080d18]">
+        <div className="flex-1 p-5 pb-24 sm:pb-8 sm:p-7 lg:p-8 overflow-y-auto bg-[#eef2f7] dark:bg-[#080d18]">
           <Outlet />
         </div>
       </div>
