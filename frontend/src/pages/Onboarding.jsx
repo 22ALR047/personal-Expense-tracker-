@@ -295,6 +295,44 @@ const cssStyles = `
     justify-content: center;
   }
 }
+
+@media (max-width: 640px) {
+  .onboarding-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  .onboarding-logo {
+    justify-content: center;
+  }
+  .onboarding-login-btn {
+    width: 100%;
+    text-align: center;
+  }
+  .onboarding-title {
+    font-size: 30px;
+    line-height: 1.25;
+  }
+  .onboarding-tabs {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 8px;
+    gap: 6px;
+  }
+  .onboarding-tab-btn {
+    width: 100%;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .onboarding-preview-img-container {
+    height: 180px;
+  }
+  .onboarding-preview-desc {
+    font-size: 13px;
+    padding: 0 8px 4px 8px;
+  }
+}
 `
 
 const TrackerLogo = () => (
