@@ -1,20 +1,102 @@
-<<<<<<< HEAD
-# React + Vite
+# Expenso Tracker ✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Expenso Tracker is a premium, modern, and feature-rich personal finance management web and mobile application. Built using React, TailwindCSS, Express, and SQLite, and packaged with Capacitor, Expenso Tracker helps users log transactions, manage recurring schedules, track debts/loans, set savings goals, configure budget limits, and receive smart financial recommendations from **Spark AI**, an built-in client-side financial coach.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Key Features
 
-## React Compiler
+- **📊 Dynamic Dashboard**: Net balance charts (using Recharts), income/expense trackers, and interactive category breakdowns.
+- **💸 Transaction Ledger**: Complete CRUD actions for transactions with searching, sorting, and category filters.
+- **📋 Smart Budgeting**: Set limits for individual categories with progressive warning thresholds (e.g., 80% used indicators, over-budget warnings).
+- **📈 Advanced Analytics**: Visual reports detailing income versus expenses and visual spending patterns.
+- **🎯 Savings Goals**: Track progress toward specific savings milestones with funding management (MacBook, Emergency Fund, etc.).
+- **👥 Debts & Loans Ledger**: Manage borrowed and lent amounts with quick settle actions that automatically log transaction adjustments.
+- **🔄 Recurring Subscriptions**: Automatically posts recurring daily, weekly, monthly, or yearly bills (e.g., Netflix, Rent) on their due dates.
+- **✨ Spark AI Assistant**: An interactive personal financial coach that analyzes your real-time data to suggest savings strategies, coffee habit improvements, grocery hacks, and budget compliance tips.
+- **🌓 Adaptive Dark Mode**: Instantly toggle between a premium light theme and a sleek dark mode.
+- **📱 Mobile Ready**: Configured with Capacitor to run on Android and iOS devices.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Technology Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# Personal-Expense-Tracker
->>>>>>> e2409e9452665a3f7393e5f8820011ede4e40bce
+- **Frontend**: React (v19), React Router Dom (v7), Vite, Recharts, TailwindCSS
+- **Backend**: Express.js, Node.js, Nodemailer (with Ethereal sandbox fallback)
+- **Database**: SQLite3, SQLite wrapper
+- **Mobile Integration**: Capacitor CLI, Core, Android
+- **Utilities**: Concurrently, Nodemon
+
+---
+
+## 📦 Setup & Installation
+
+### 1. Prerequisites
+Ensure you have [Node.js](https://nodejs.org/) installed.
+
+### 2. Clone the Repository & Install Dependencies
+```bash
+# Install package dependencies
+npm install
+```
+
+### 3. Environment Configuration
+Create a `.env` file in the root directory (refer to the existing template):
+```env
+# SMTP Configuration (Optional - for sending password reset emails)
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=your-email@gmail.com
+# SMTP_PASS=your-gmail-app-password
+```
+*Note: If no SMTP configuration is supplied, the server will automatically default to a secure Ethereal sandbox test account, displaying verification links directly in the console for development testing.*
+
+---
+
+## 💻 Running the Application
+
+To run the frontend and backend concurrently in development mode:
+```bash
+npm run dev
+```
+
+- **Frontend** runs at: `http://localhost:5173`
+- **Backend API** runs at: `http://localhost:5005`
+
+### Running Backend Individually:
+```bash
+npm run dev:backend
+```
+
+### Running Frontend Individually:
+```bash
+npm run dev:frontend
+```
+
+---
+
+## 🛠️ Production Build
+
+To build the project for production:
+```bash
+npm run build
+```
+
+This compiles the assets into the `dist/` directory, which is served automatically by the Express backend.
+
+---
+
+## 📱 Mobile Deployment (Capacitor)
+
+1. Build the web assets:
+   ```bash
+   npm run build
+   ```
+2. Sync with Capacitor:
+   ```bash
+   npx cap sync
+   ```
+3. Open in Android Studio / Xcode:
+   ```bash
+   npx cap open android
+   ```

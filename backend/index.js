@@ -597,11 +597,20 @@ app.delete('/api/debts/:id', async (req, res) => {
 })
 
 // Serve built frontend in production
-const distPath = path.join(process.cwd(), 'dist')
+let distPath = path.join(process.cwd(), 'dist')
+if (!fs.existsSync(distPath)) {
+  // Fallback if running locally from the backend subdirectory
+  distPath = path.join(process.cwd(), '../frontend/dist')
+}
 app.use(express.static(distPath))
-app.get('*', (req, res) => {
+app.get('*any', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(distPath, 'index.html'))
+    const indexHtml = path.join(distPath, 'index.html')
+    if (fs.existsSync(indexHtml)) {
+      res.sendFile(indexHtml)
+    } else {
+      res.status(404).send('Frontend build not found. If this is a backend-only deploy, access API endpoints via /api.')
+    }
   }
 })
 
