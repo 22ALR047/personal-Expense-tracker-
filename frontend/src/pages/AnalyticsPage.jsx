@@ -135,7 +135,7 @@ export default function AnalyticsPage({ transactions }) {
     <div className="flex flex-col h-full w-full space-y-6 animate-rise">
       
       {/* HEADER SECTION */}
-      <div className="flex justify-between items-center pb-5 border-b border-slate-200/50 dark:border-slate-800/40">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 pb-5 border-b border-slate-200/50 dark:border-slate-800/40">
         <div>
           <p className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Analytics Dashboard</p>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-0.5">
@@ -143,7 +143,7 @@ export default function AnalyticsPage({ transactions }) {
           </h1>
         </div>
         {isDemoMode && (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff7ee2]/10 text-[#ff7ee2] text-[9px] font-black uppercase tracking-wider">
+          <span className="w-fit inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff7ee2]/10 text-[#ff7ee2] text-[9px] font-black uppercase tracking-wider">
             ✨ Preview Mode
           </span>
         )}
@@ -242,19 +242,19 @@ export default function AnalyticsPage({ transactions }) {
         
         {/* Spending Over Time pink bar chart (8 cols) */}
         <article className="lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 p-6 rounded-3xl shadow-sm space-y-5 text-left">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div>
               <h3 className="text-xs font-black text-slate-855 dark:text-white uppercase tracking-wider">Spending Over Time</h3>
               <p className="text-[9px] text-slate-400 mt-0.5">Daily expense intervals comparison</p>
             </div>
 
             {/* Timeframe switch pills */}
-            <div className="flex bg-slate-100 dark:bg-slate-950 p-0.5 rounded-xl border border-slate-205/30">
+            <div className="flex bg-slate-100 dark:bg-slate-950 p-0.5 rounded-xl border border-slate-205/30 w-full sm:w-auto justify-between sm:justify-start">
               {['Month', 'Year', 'Week', 'Today'].map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSpendingTimeframe(tf.toLowerCase())}
-                  className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+                  className={`flex-1 sm:flex-initial px-3 py-1.5 text-[9px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
                     spendingTimeframe === tf.toLowerCase()
                       ? 'bg-[#1c1c1e] text-white dark:bg-white dark:text-[#1c1c1e] shadow-sm'
                       : 'text-slate-400 hover:text-slate-650'

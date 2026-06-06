@@ -314,8 +314,29 @@ const css = `
 .lp-footer a:hover { color: #1b6351; }
 
 @media (max-width: 900px) {
-  .lp-left { display: none; }
-  .lp-right { padding: 32px 24px; }
+  .lp-page {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .lp-left {
+    width: 100%;
+    min-height: auto;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    padding: 40px 24px 0;
+  }
+  .lp-left-circle {
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  }
+  .lp-left-blob {
+    display: none;
+  }
+  .lp-right {
+    padding: 24px 24px 40px;
+  }
 }
 `
 

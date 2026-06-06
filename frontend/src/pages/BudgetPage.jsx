@@ -126,7 +126,7 @@ export default function BudgetPage({ transactions = [] }) {
             </button>
           </div>
         </div>
-        <div className="flex items-center gap-6 text-right">
+        <div className="flex items-center gap-6 text-left sm:text-right w-full sm:w-auto justify-between sm:justify-end">
           <div>
             <p className="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Total Budget</p>
             <p className="text-lg font-black text-slate-900 dark:text-white">{fmt(totalBudget)}</p>

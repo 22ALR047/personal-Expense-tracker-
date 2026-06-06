@@ -223,8 +223,31 @@ const cssStyles = `
 
 /* ── Responsive ── */
 @media (max-width: 1023px) {
+  .signup-page {
+    flex-direction: column-reverse;
+    overflow-y: auto;
+  }
   .signup-right {
-    display: none !important;
+    width: 100% !important;
+    min-height: auto !important;
+    background: transparent !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 40px 24px 0 !important;
+  }
+  .signup-right-illustration {
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12) !important;
+  }
+  .signup-left {
+    min-height: auto !important;
+    padding: 24px 24px 40px !important;
   }
 }
 `

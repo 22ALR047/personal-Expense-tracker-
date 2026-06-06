@@ -108,6 +108,21 @@ export default function Layout({ currentUser, onLogout, isDark, setIsDark, trans
             {item.label}
           </Link>
         ))}
+        {/* Mobile-only prominent Add Entry CTA */}
+        <div className="px-3.5 py-2 mt-2 lg:hidden flex-shrink-0">
+          <button
+            onClick={() => {
+              setMobileOpen(false)
+              triggerAdd()
+            }}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-[#207561] hover:bg-slate-100 rounded-xl text-sm font-bold shadow-sm transition-all duration-150 cursor-pointer"
+          >
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Entry
+          </button>
+        </div>
       </nav>
 
       {currentUser && (
@@ -149,6 +164,16 @@ export default function Layout({ currentUser, onLogout, isDark, setIsDark, trans
         <div className="flex items-center gap-3">
           <button
             type="button"
+            onClick={triggerAdd}
+            className="p-1.5 rounded-xl bg-white/10 text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+            title="Add Entry"
+          >
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} className="w-[18px] h-[18px]">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+          <button
+            type="button"
             onClick={() => setIsDark(v => !v)}
             className="p-1 rounded-xl text-white/80 hover:text-white cursor-pointer"
             title="Toggle theme"
@@ -175,7 +200,7 @@ export default function Layout({ currentUser, onLogout, isDark, setIsDark, trans
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div className="absolute inset-0 bg-black/45" onClick={() => setMobileOpen(false)} />
-          <div className="absolute left-0 top-0 bottom-0 w-64 bg-[#207561] flex flex-col animate-slide-in text-white">
+          <div className="absolute left-0 top-0 bottom-0 w-64 bg-[#207561] flex flex-col animate-slide-in-left text-white">
             {sidebarContent}
           </div>
         </div>

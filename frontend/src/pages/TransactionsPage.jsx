@@ -197,24 +197,18 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
       </div>
 
       {/* Advanced Filters Panel */}
-      <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a]" style={{
-        padding: '16px 20px',
+      <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a] p-4 sm:p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" style={{
         borderRadius: 18,
         boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 16,
-        alignItems: 'center',
-        justifyContent: 'space-between'
       }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center w-full sm:w-auto">
           {/* Category Selector */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <span style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 0.5 }}>Category Filter</span>
             <select
               value={catFilter}
               onChange={e => setCatFilter(e.target.value)}
-              className="bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600"
+              className="w-full sm:w-auto bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600"
               style={{
                 padding: '8px 12px',
                 borderRadius: 10,
@@ -233,13 +227,13 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
           </div>
 
           {/* Start Date Picker */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <span style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 0.5 }}>Start Date</span>
             <input
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600 dark:[color-scheme:dark]"
+              className="w-full sm:w-auto bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600 dark:[color-scheme:dark]"
               style={{
                 padding: '8px 12px',
                 borderRadius: 10,
@@ -253,13 +247,13 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
           </div>
 
           {/* End Date Picker */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <span style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 0.5 }}>End Date</span>
             <input
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600 dark:[color-scheme:dark]"
+              className="w-full sm:w-auto bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600 dark:[color-scheme:dark]"
               style={{
                 padding: '8px 12px',
                 borderRadius: 10,
@@ -277,7 +271,7 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
         {(catFilter !== 'all' || startDate !== '' || endDate !== '' || search !== '' || filter !== 'all') && (
           <button
             onClick={clearFilters}
-            className="bg-[#fee2e2] text-[#dc2626] dark:bg-red-950/20 dark:text-red-400"
+            className="w-full sm:w-auto bg-[#fee2e2] text-[#dc2626] dark:bg-red-950/20 dark:text-red-400"
             style={{
               padding: '8px 16px',
               borderRadius: 10,
@@ -309,7 +303,7 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
       </div>
 
       {/* Transaction List */}
-      <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a]" style={{borderRadius:18,boxShadow:'0 1px 6px rgba(0,0,0,0.06)'}}>
+      <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a]" style={{borderRadius:18,boxShadow:'0 1px 6px rgba(0,0,0,0.06)', overflow: 'hidden'}}>
         {loading ? (
           <div style={{padding:40,textAlign:'center',color:'#9ca3af',fontSize:13}}>Loading transactions…</div>
         ) : filtered.length === 0 ? (
@@ -319,48 +313,104 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
             <div style={{color:'#9ca3af',fontSize:12,marginTop:4}}>Add your first entry using the "Add Entry" button above</div>
           </div>
         ) : (
-          <div style={{overflowX:'auto'}}>
-          <table style={{width:'100%',borderCollapse:'separate',borderSpacing:0,minWidth:650}}>
-            <thead>
-              <tr className="dark:border-slate-700" style={{borderBottom:'1.5px solid #f3f4f6'}}>
-                {['Transaction','Category','Type','Date','Amount','Actions'].map(h=>(
-                  <th key={h} style={{padding:'14px 20px',textAlign:h==='Amount'||h==='Actions'?'right':'left',fontSize:11,fontWeight:700,color:'#9ca3af',textTransform:'uppercase',letterSpacing:.5}}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((t,i) => (
-                  <tr key={t.id} className="dark:border-slate-800/50" style={{borderBottom:i<filtered.length-1?'1px solid #f9fafb':'none',transition:'background .1s'}}
-                  onMouseEnter={e=>e.currentTarget.style.background='#f9fafb'}
-                  onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
-                  <td style={{padding:'13px 20px'}}>
-                    <div style={{display:'flex',alignItems:'center',gap:10}}>
-                      <div className={t.type==='income'?'dark:bg-green-950/40':'dark:bg-red-950/40'} style={{width:36,height:36,borderRadius:10,background:t.type==='income'?'#e8f5f0':'#fff0f0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,flexShrink:0}}>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table style={{width:'100%',borderCollapse:'separate',borderSpacing:0,minWidth:650}}>
+                <thead>
+                  <tr className="dark:border-slate-700" style={{borderBottom:'1.5px solid #f3f4f6'}}>
+                    {['Transaction','Category','Type','Date','Amount','Actions'].map(h=>(
+                      <th key={h} style={{padding:'14px 20px',textAlign:h==='Amount'||h==='Actions'?'right':'left',fontSize:11,fontWeight:700,color:'#9ca3af',textTransform:'uppercase',letterSpacing:.5}}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((t,i) => (
+                      <tr key={t.id} className="dark:border-slate-800/50" style={{borderBottom:i<filtered.length-1?'1px solid #f9fafb':'none',transition:'background .1s'}}
+                      onMouseEnter={e=>e.currentTarget.style.background='#f9fafb'}
+                      onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                      <td style={{padding:'13px 20px'}}>
+                        <div style={{display:'flex',alignItems:'center',gap:10}}>
+                          <div className={t.type==='income'?'dark:bg-green-950/40':'dark:bg-red-950/40'} style={{width:36,height:36,borderRadius:10,background:t.type==='income'?'#e8f5f0':'#fff0f0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,flexShrink:0}}>
+                            {EMOJI[t.category]||'📌'}
+                          </div>
+                          <div>
+                            <div className="dark:text-slate-200" style={{fontWeight:700,fontSize:13}}>{t.title}</div>
+                            {t.description && <div style={{fontSize:11,color:'#9ca3af'}}>{t.description}</div>}
+                          </div>
+                        </div>
+                      </td>
+                      <td style={{padding:'13px 20px'}}><span className="bg-[#f3f4f6] text-[#374151] dark:bg-slate-800 dark:text-slate-300" style={{padding:'4px 10px',borderRadius:9999,fontSize:11,fontWeight:600}}>{t.category}</span></td>
+                      <td style={{padding:'13px 20px'}}><span className={t.type==='income'?'bg-[#dcfce7] text-[#166534] dark:bg-green-900/40 dark:text-green-400':'bg-[#fee2e2] text-[#991b1b] dark:bg-red-900/40 dark:text-red-400'} style={{padding:'4px 10px',borderRadius:9999,fontSize:11,fontWeight:700}}>{t.type}</span></td>
+                      <td className="dark:text-slate-400" style={{padding:'13px 20px',fontSize:12}}>{fmtDate(t.createdAt)}</td>
+                      <td style={{padding:'13px 20px',textAlign:'right',fontWeight:800,fontSize:14,color:t.type==='income'?'#207561':'#ef4444'}}>
+                        {t.type==='income'?'+':'-'}{fmt(t.amountCents)}
+                      </td>
+                      <td style={{padding:'13px 20px',textAlign:'right'}}>
+                        <div style={{display:'flex',gap:8,justifyContent:'flex-end'}}>
+                          <button onClick={()=>openEdit(t)} className="bg-[#fff] text-[#374151] border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-300 dark:border-slate-600" style={{padding:'5px 12px',borderRadius:8,borderWidth:1,borderStyle:'solid',cursor:'pointer',fontSize:11,fontWeight:700,fontFamily:'inherit'}}>Edit</button>
+                          <button onClick={()=>setDeleteId(t.id)} style={{padding:'5px 12px',borderRadius:8,border:'none',background:'#fee2e2',cursor:'pointer',fontSize:11,fontWeight:700,color:'#dc2626',fontFamily:'inherit'}}>Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card List View */}
+            <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800/40">
+              {filtered.map((t) => (
+                <div key={t.id} className="p-4 flex flex-col gap-3">
+                  {/* Header: Title and Amount */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0 ${t.type==='income'?'bg-emerald-50 text-emerald-600 dark:bg-green-950/40':'bg-red-50 text-red-500 dark:bg-red-950/40'}`}>
                         {EMOJI[t.category]||'📌'}
                       </div>
-                      <div>
-                        <div className="dark:text-slate-200" style={{fontWeight:700,fontSize:13}}>{t.title}</div>
-                        {t.description && <div style={{fontSize:11,color:'#9ca3af'}}>{t.description}</div>}
+                      <div className="min-w-0">
+                        <p className="font-extrabold text-sm text-slate-800 dark:text-slate-200 truncate">{t.title}</p>
+                        <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 mt-0.5">{fmtDate(t.createdAt)}</p>
                       </div>
                     </div>
-                  </td>
-                  <td style={{padding:'13px 20px'}}><span className="bg-[#f3f4f6] text-[#374151] dark:bg-slate-800 dark:text-slate-300" style={{padding:'4px 10px',borderRadius:9999,fontSize:11,fontWeight:600}}>{t.category}</span></td>
-                  <td style={{padding:'13px 20px'}}><span className={t.type==='income'?'bg-[#dcfce7] text-[#166534] dark:bg-green-900/40 dark:text-green-400':'bg-[#fee2e2] text-[#991b1b] dark:bg-red-900/40 dark:text-red-400'} style={{padding:'4px 10px',borderRadius:9999,fontSize:11,fontWeight:700}}>{t.type}</span></td>
-                  <td className="dark:text-slate-400" style={{padding:'13px 20px',fontSize:12}}>{fmtDate(t.createdAt)}</td>
-                  <td style={{padding:'13px 20px',textAlign:'right',fontWeight:800,fontSize:14,color:t.type==='income'?'#207561':'#ef4444'}}>
-                    {t.type==='income'?'+':'-'}{fmt(t.amountCents)}
-                  </td>
-                  <td style={{padding:'13px 20px',textAlign:'right'}}>
-                    <div style={{display:'flex',gap:8,justifyContent:'flex-end'}}>
-                      <button onClick={()=>openEdit(t)} className="bg-[#fff] text-[#374151] border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-300 dark:border-slate-600" style={{padding:'5px 12px',borderRadius:8,borderWidth:1,borderStyle:'solid',cursor:'pointer',fontSize:11,fontWeight:700,fontFamily:'inherit'}}>Edit</button>
-                      <button onClick={()=>setDeleteId(t.id)} style={{padding:'5px 12px',borderRadius:8,border:'none',background:'#fee2e2',cursor:'pointer',fontSize:11,fontWeight:700,color:'#dc2626',fontFamily:'inherit'}}>Delete</button>
+                    <span className={`text-sm font-black shrink-0 ${t.type==='income'?'text-[#207561]':'text-red-500'}`}>
+                      {t.type==='income'?'+':'-'}{fmt(t.amountCents)}
+                    </span>
+                  </div>
+
+                  {/* Description Note if exists */}
+                  {t.description && (
+                    <p className="text-xs text-slate-400 dark:text-slate-500 bg-slate-50/50 dark:bg-slate-900/30 px-3 py-2 rounded-xl border border-slate-100/50 dark:border-slate-800/10">
+                      {t.description}
+                    </p>
+                  )}
+
+                  {/* Footer Badges and Actions */}
+                  <div className="flex items-center justify-between gap-4 mt-1">
+                    <div className="flex gap-2">
+                      <span className="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">{t.category}</span>
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${t.type==='income'?'bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400':'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400'}`}>{t.type}</span>
                     </div>
-                  </td>
-                </tr>
+
+                    <div className="flex gap-2.5">
+                      <button 
+                        onClick={() => openEdit(t)} 
+                        className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/40 dark:border-slate-800/60 rounded-lg text-[10px] font-extrabold uppercase tracking-wider cursor-pointer"
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        onClick={() => setDeleteId(t.id)} 
+                        className="px-3 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-500 rounded-lg text-[10px] font-extrabold uppercase tracking-wider cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-          </div>
+            </div>
+          </>
         )}
       </div>
 
@@ -382,7 +432,7 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
       {/* Add/Edit Modal */}
       {modal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:60,padding:20}}>
-          <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a]" style={{borderRadius:24,padding:32,width:'100%',maxWidth:460,boxShadow:'0 20px 60px rgba(0,0,0,0.15)',maxHeight:'90vh',overflowY:'auto'}}>
+          <div className="bg-white dark:bg-[#16162a] dark:border dark:border-[#22223a] p-5 sm:p-8" style={{borderRadius:24,width:'100%',maxWidth:460,boxShadow:'0 20px 60px rgba(0,0,0,0.15)',maxHeight:'90vh',overflowY:'auto'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
               <h2 className="dark:text-slate-200" style={{fontSize:18,fontWeight:900}}>{editId?'Edit':'Add'} Transaction</h2>
               <button onClick={()=>{setModal(false);resetForm()}} style={{background:'none',border:'none',cursor:'pointer',fontSize:20,color:'#9ca3af',lineHeight:1}}>✕</button>

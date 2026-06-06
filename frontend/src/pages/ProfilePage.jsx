@@ -26,16 +26,16 @@ export default function ProfilePage({ currentUser, transactions = [], isDark, se
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6 border-b border-slate-100 dark:border-[#22223a]">
-          <div className="text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 py-6 border-b border-slate-100 dark:border-[#22223a]">
+          <div className="text-center pb-4 sm:pb-0">
             <p className="text-2xl font-black text-[#207561]">{formatCurrency(totalIncome)}</p>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mt-1">Total Income</p>
           </div>
-          <div className="text-center border-x border-slate-100 dark:border-[#22223a]">
+          <div className="text-center py-4 sm:py-0 border-y sm:border-y-0 sm:border-x border-slate-100 dark:border-[#22223a]">
             <p className="text-2xl font-black text-red-500">{formatCurrency(totalExpense)}</p>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mt-1">Total Expense</p>
           </div>
-          <div className="text-center">
+          <div className="text-center pt-4 sm:pt-0">
             <p className="text-2xl font-black text-slate-900 dark:text-white">{transactions.length}</p>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mt-1">Transactions</p>
           </div>
