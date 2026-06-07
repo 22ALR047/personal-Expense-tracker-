@@ -281,6 +281,11 @@ export default function SignupPage({ onLogin }) {
       setError('Please fill in all fields.')
       return
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.')
+      return
+    }
     const isStrong = password.length >= 8 &&
                      /[A-Z]/.test(password) &&
                      /[a-z]/.test(password) &&

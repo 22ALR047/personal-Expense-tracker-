@@ -397,6 +397,11 @@ export default function LoginPage({ onLogin }) {
       setForgotError('Please fill in all fields.')
       return
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(forgotEmail)) {
+      setForgotError('Please enter a valid email address.')
+      return
+    }
     const isStrong = forgotNewPassword.length >= 8 &&
                      /[A-Z]/.test(forgotNewPassword) &&
                      /[a-z]/.test(forgotNewPassword) &&
@@ -432,6 +437,11 @@ export default function LoginPage({ onLogin }) {
     e.preventDefault()
     setError('')
     if (!email || !password) { setError('Please fill in all fields.'); return }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.')
+      return
+    }
     setLoading(true)
     try {
       const res = await fetch('/api/auth/login', {
