@@ -204,9 +204,9 @@ function App() {
           <Route 
             path="/dashboard" 
             element={
-              <DashboardPage 
+              <AnalyticsPage 
+                currentUser={currentUser}
                 transactions={transactions} 
-                loading={loading}
               />
             } 
           />
@@ -226,15 +226,6 @@ function App() {
             path="/budget" 
             element={
               <BudgetPage 
-                transactions={transactions} 
-              />
-            } 
-          />
-          <Route 
-            path="/reports" 
-            element={
-              <AnalyticsPage 
-                currentUser={currentUser}
                 transactions={transactions} 
               />
             } 

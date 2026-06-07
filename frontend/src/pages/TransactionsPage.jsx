@@ -1,21 +1,45 @@
 import { useState, useMemo, useEffect } from 'react'
 
-const CATEGORIES = ['Groceries', 'Eating Out', 'Taxi', 'Coffee', 'Shopping', 'Electronics', 'Utilities', 'Rent', 'Gym', 'Health', 'Education', 'Fuel', 'Salary', 'Freelance', 'Other']
-const EMOJI = { Groceries:'🛒', 'Eating Out':'🍽️', Taxi:'🚕', Coffee:'☕', Shopping:'🛍️', Electronics:'📱', Utilities:'💡', Rent:'🏠', Gym:'🏋️‍♂️', Health:'❤️', Education:'📚', Fuel:'⛽', Salary:'💼', Freelance:'💻', Other:'📌' }
+const EXPENSE_CATEGORIES = ['Groceries', 'Eating Out', 'Transport', 'Shopping', 'Utilities', 'Rent', 'Entertainment', 'Other']
+const INCOME_CATEGORIES = ['Salary', 'Freelance', 'Other']
+const ALL_CATEGORIES = [...new Set([...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES])]
+
+const EMOJI = { 
+  // Simplified categories
+  Groceries: '🛒', 
+  'Eating Out': '🍽️', 
+  Transport: '🚗', 
+  Shopping: '🛍️', 
+  Utilities: '💡', 
+  Rent: '🏠', 
+  Entertainment: '🎭', 
+  Salary: '💼', 
+  Freelance: '💻', 
+  Other: '📌',
+  
+  // Backward compatibility
+  Taxi: '🚕',
+  Coffee: '☕',
+  Electronics: '📱',
+  Gym: '🏋️‍♂️',
+  Health: '❤️',
+  Education: '📚',
+  Fuel: '⛽'
+}
 
 const AUTO_CATEGORIES = {
   'grocery': 'Groceries', 'groceries': 'Groceries', 'supermarket': 'Groceries', 'walmart': 'Groceries', 'target': 'Groceries', 'milk': 'Groceries', 'vegetables': 'Groceries', 'fruits': 'Groceries', 'food hall': 'Groceries',
   'restaurant': 'Eating Out', 'dinner': 'Eating Out', 'lunch': 'Eating Out', 'breakfast': 'Eating Out', 'mcdonald': 'Eating Out', 'burger': 'Eating Out', 'pizza': 'Eating Out', 'kfc': 'Eating Out', 'subway': 'Eating Out', 'domino': 'Eating Out',
-  'uber': 'Taxi', 'lyft': 'Taxi', 'cab': 'Taxi', 'taxi': 'Taxi', 'ola': 'Taxi', 'ride': 'Taxi',
-  'starbucks': 'Coffee', 'coffee': 'Coffee', 'cafe': 'Coffee', 'espresso': 'Coffee', 'tea': 'Coffee', 'dunkin': 'Coffee',
+  'uber': 'Transport', 'lyft': 'Transport', 'cab': 'Transport', 'taxi': 'Transport', 'ola': 'Transport', 'ride': 'Transport', 'train': 'Transport', 'bus': 'Transport',
+  'starbucks': 'Eating Out', 'coffee': 'Eating Out', 'cafe': 'Eating Out', 'espresso': 'Eating Out', 'tea': 'Eating Out', 'dunkin': 'Eating Out',
   'amazon': 'Shopping', 'clothing': 'Shopping', 'shoes': 'Shopping', 'mall': 'Shopping', 'clothes': 'Shopping', 'zara': 'Shopping', 'hm': 'Shopping',
-  'apple': 'Electronics', 'phone': 'Electronics', 'laptop': 'Electronics', 'charger': 'Electronics', 'software': 'Electronics', 'best buy': 'Electronics', 'gadget': 'Electronics',
-  'electricity': 'Utilities', 'water bill': 'Utilities', 'internet': 'Utilities', 'wifi': 'Utilities', 'gas': 'Utilities', 'netflix': 'Utilities', 'spotify': 'Utilities', 'youtube premium': 'Utilities', 'bill': 'Utilities', 'utility': 'Utilities',
+  'apple': 'Shopping', 'phone': 'Shopping', 'laptop': 'Shopping', 'charger': 'Shopping', 'software': 'Shopping', 'best buy': 'Shopping', 'gadget': 'Shopping',
+  'electricity': 'Utilities', 'water bill': 'Utilities', 'internet': 'Utilities', 'wifi': 'Utilities', 'gas': 'Utilities', 'netflix': 'Entertainment', 'spotify': 'Entertainment', 'youtube premium': 'Entertainment', 'bill': 'Utilities', 'utility': 'Utilities',
   'rent': 'Rent', 'house rent': 'Rent', 'flat rent': 'Rent', 'room rent': 'Rent', 'lease': 'Rent',
-  'gym': 'Gym', 'workout': 'Gym', 'fitness': 'Gym', 'exercise': 'Gym', 'cult': 'Gym',
-  'doctor': 'Health', 'hospital': 'Health', 'medicine': 'Health', 'pharmacy': 'Health', 'dentist': 'Health', 'insurance': 'Health',
-  'book': 'Education', 'books': 'Education', 'course': 'Education', 'tuition': 'Education', 'school': 'Education', 'college': 'Education',
-  'petrol': 'Fuel', 'diesel': 'Fuel', 'gas station': 'Fuel', 'fuel': 'Fuel', 'shell': 'Fuel',
+  'gym': 'Entertainment', 'workout': 'Entertainment', 'fitness': 'Entertainment', 'exercise': 'Entertainment', 'cult': 'Entertainment',
+  'doctor': 'Other', 'hospital': 'Other', 'medicine': 'Other', 'pharmacy': 'Other', 'dentist': 'Other', 'insurance': 'Other',
+  'book': 'Other', 'books': 'Other', 'course': 'Other', 'tuition': 'Other', 'school': 'Other', 'college': 'Other',
+  'petrol': 'Transport', 'diesel': 'Transport', 'gas station': 'Transport', 'fuel': 'Transport', 'shell': 'Transport',
   'salary': 'Salary', 'paycheck': 'Salary', 'dividend': 'Salary',
   'freelance': 'Freelance', 'upwork': 'Freelance', 'fiverr': 'Freelance', 'project': 'Freelance', 'consulting': 'Freelance'
 }
@@ -104,7 +128,16 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
 
   function openEdit(t) {
     setEditId(t.id)
-    setForm({ title:t.title, amount:(t.amountCents/100).toString(), category:t.category, type:t.type, description:t.description||'' })
+    let category = t.category
+    const list = t.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
+    if (!list.includes(category)) {
+      if (category === 'Coffee' || category === 'Eating Out') category = 'Eating Out'
+      else if (category === 'Taxi' || category === 'Fuel') category = 'Transport'
+      else if (category === 'Electronics' || category === 'Shopping') category = 'Shopping'
+      else if (category === 'Gym' || category === 'Education') category = 'Entertainment'
+      else category = 'Other'
+    }
+    setForm({ title:t.title, amount:(t.amountCents/100).toString(), category, type:t.type, description:t.description||'' })
     setErr(''); setModal(true)
   }
 
@@ -222,7 +255,7 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
               }}
             >
               <option value="all">All Categories</option>
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              {(filter === 'income' ? INCOME_CATEGORIES : filter === 'expense' ? EXPENSE_CATEGORIES : ALL_CATEGORIES).map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
 
@@ -441,7 +474,14 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
             {/* Type toggle */}
             <div className="bg-[#f3f4f6] dark:bg-slate-800" style={{display:'flex',borderRadius:12,padding:3,marginBottom:20}}>
               {['expense','income'].map(t=>(
-                <button key={t} onClick={()=>setForm(p=>({...p,type:t}))} style={{
+                <button key={t} type="button" onClick={()=>{
+                  setForm(p => {
+                    const list = t === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
+                    const defaultCat = list[0]
+                    const category = list.includes(p.category) ? p.category : defaultCat
+                    return { ...p, type: t, category }
+                  })
+                }} style={{
                   flex:1,padding:'9px',borderRadius:10,border:'none',cursor:'pointer',
                   fontWeight:700,fontSize:13,fontFamily:'inherit',transition:'all .15s',
                   background:form.type===t?(t==='income'?'#207561':'#ef4444'):'transparent',
@@ -467,7 +507,7 @@ export default function TransactionsPage({ transactions = [], loading, handleAdd
                 <label className="dark:text-slate-300" style={{fontSize:12,fontWeight:700,display:'block',marginBottom:6}}>Category</label>
                 <select value={form.category} onChange={e=>setForm(p=>({...p,category:e.target.value}))}
                   className="bg-[#fff] text-slate-700 border-[#e5e7eb] dark:bg-[#0f0f1e] dark:text-slate-200 dark:border-slate-600" style={{width:'100%',padding:'11px 14px',borderRadius:11,borderWidth:'1.5px',borderStyle:'solid',fontSize:14,fontFamily:'inherit',outline:'none',cursor:'pointer'}}>
-                  {CATEGORIES.map(c=><option key={c}>{c}</option>)}
+                  {(form.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(c=><option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
 

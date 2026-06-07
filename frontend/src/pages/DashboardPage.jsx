@@ -49,7 +49,16 @@ export default function DashboardPage({ transactions = [], loading }) {
     const map = {}
     let totalCents = 0
     transactions.forEach(t => {
-      map[t.category] = (map[t.category] || 0) + t.amountCents
+      let cat = t.category || 'Other'
+      const validCategories = ['Groceries', 'Eating Out', 'Transport', 'Shopping', 'Utilities', 'Rent', 'Entertainment', 'Salary', 'Freelance', 'Other']
+      if (!validCategories.includes(cat)) {
+        if (cat === 'Coffee' || cat === 'Eating Out') cat = 'Eating Out'
+        else if (cat === 'Taxi' || cat === 'Fuel') cat = 'Transport'
+        else if (cat === 'Electronics' || cat === 'Shopping') cat = 'Shopping'
+        else if (cat === 'Gym' || cat === 'Education') cat = 'Entertainment'
+        else cat = 'Other'
+      }
+      map[cat] = (map[cat] || 0) + t.amountCents
       totalCents += t.amountCents
     })
     

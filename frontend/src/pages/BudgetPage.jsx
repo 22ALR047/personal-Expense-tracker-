@@ -6,21 +6,34 @@ const BUDGET_STORAGE_KEY = 'expense-tracker-budgets'
 const DEFAULT_BUDGETS = {
   Groceries: { limit: 0 },
   'Eating Out': { limit: 0 },
-  Taxi: { limit: 0 },
-  Coffee: { limit: 0 },
+  Transport: { limit: 0 },
   Shopping: { limit: 0 },
-  Electronics: { limit: 0 },
   Utilities: { limit: 0 },
   Rent: { limit: 0 },
-  Gym: { limit: 0 },
-  Health: { limit: 0 },
-  Education: { limit: 0 },
-  Fuel: { limit: 0 },
+  Entertainment: { limit: 0 },
   Other: { limit: 0 },
 }
 
 const COLORS = ['#207561', '#2fa882', '#4dc4a0', '#86d8c0', '#ff7ee2', '#d97706', '#3b82f6', '#f43f5e', '#6366f1', '#f97316', '#64748b', '#10b981', '#22c55e']
-const EMOJI = { Groceries:'🛒', 'Eating Out':'🍽️', Taxi:'🚕', Coffee:'☕', Shopping:'🛍️', Electronics:'📱', Utilities:'💡', Rent:'🏠', Gym:'🏋️‍♂️', Health:'❤️', Education:'📚', Fuel:'⛽', Other:'📌' }
+const EMOJI = { 
+  Groceries: '🛒', 
+  'Eating Out': '🍽️', 
+  Transport: '🚗', 
+  Shopping: '🛍️', 
+  Utilities: '💡', 
+  Rent: '🏠', 
+  Entertainment: '🎭', 
+  Other: '📌',
+  
+  // Backward compatibility
+  Taxi: '🚕',
+  Coffee: '☕',
+  Electronics: '📱',
+  Gym: '🏋️‍♂️',
+  Health: '❤️',
+  Education: '📚',
+  Fuel: '⛽'
+}
 
 function fmt(cents) {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format((cents || 0) / 100)
@@ -73,14 +86,23 @@ export default function BudgetPage({ transactions = [] }) {
         return d.getMonth() === currentMonth && d.getFullYear() === currentYear
       })
       .forEach(t => {
-        const cat = t.category || 'Other'
+        let cat = t.category || 'Other'
+        // Map old category to new simplified category for budget aggregation
+        if (DEFAULT_BUDGETS[cat] === undefined) {
+          if (cat === 'Coffee' || cat === 'Eating Out') cat = 'Eating Out'
+          else if (cat === 'Taxi' || cat === 'Fuel') cat = 'Transport'
+          else if (cat === 'Electronics' || cat === 'Shopping') cat = 'Shopping'
+          else if (cat === 'Gym' || cat === 'Education') cat = 'Entertainment'
+          else cat = 'Other'
+        }
         map[cat] = (map[cat] || 0) + t.amountCents
       })
     return map
   }, [transactions])
 
   const budgetData = useMemo(() => {
-    return Object.entries(budgets).map(([category, budget]) => {
+    return Object.keys(DEFAULT_BUDGETS).map((category) => {
+      const budget = budgets[category] || { limit: 0 }
       const spent = spentByCategory[category] || 0
       const percent = budget.limit > 0 ? Math.min((spent / budget.limit) * 100, 100) : 0
       const remaining = budget.limit - spent
@@ -88,7 +110,9 @@ export default function BudgetPage({ transactions = [] }) {
     })
   }, [budgets, spentByCategory])
 
-  const totalBudget = useMemo(() => Object.values(budgets).reduce((s, b) => s + b.limit, 0), [budgets])
+  const totalBudget = useMemo(() => {
+    return Object.keys(DEFAULT_BUDGETS).reduce((s, category) => s + (budgets[category]?.limit || 0), 0)
+  }, [budgets])
   const totalSpent = useMemo(() => Object.values(spentByCategory).reduce((s, v) => s + v, 0), [spentByCategory])
   const totalPercent = totalBudget > 0 ? Math.min((totalSpent / totalBudget) * 100, 100) : 0
 
