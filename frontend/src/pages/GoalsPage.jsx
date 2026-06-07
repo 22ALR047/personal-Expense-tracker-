@@ -118,8 +118,40 @@ export default function GoalsPage({ currentUser }) {
     }
   }
 
+  // Calculators
+  const totalTargetCents = goals.reduce((s, g) => s + g.targetAmountCents, 0)
+  const totalCurrentCents = goals.reduce((s, g) => s + g.currentAmountCents, 0)
+  const totalRemainingCents = totalTargetCents - totalCurrentCents
+  const overallPercent = totalTargetCents > 0 ? Math.min(Math.round((totalCurrentCents / totalTargetCents) * 100), 100) : 0
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-rise">
+    <div className="flex flex-col gap-6 animate-rise">
+      {/* Overview Cards */}
+      {goals.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white dark:bg-[#16162a] border border-slate-100 dark:border-[#22223a] rounded-3xl p-5 shadow-sm">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-extrabold uppercase tracking-widest">Total Saved</p>
+            <div className="flex items-baseline justify-between mt-1">
+              <p className="text-2xl font-black text-[#207561]">{fmt(totalCurrentCents)}</p>
+              {totalTargetCents > 0 && (
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                  {overallPercent}%
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="bg-white dark:bg-[#16162a] border border-slate-100 dark:border-[#22223a] rounded-3xl p-5 shadow-sm">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-extrabold uppercase tracking-widest">Total Target</p>
+            <p className="text-2xl font-black text-slate-900 dark:text-white mt-1">{fmt(totalTargetCents)}</p>
+          </div>
+          <div className="bg-white dark:bg-[#16162a] border border-slate-100 dark:border-[#22223a] rounded-3xl p-5 shadow-sm">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-extrabold uppercase tracking-widest">Total Remaining</p>
+            <p className="text-2xl font-black text-red-500 mt-1">{fmt(Math.max(0, totalRemainingCents))}</p>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Create Goal Form */}
       <div className="lg:col-span-1 bg-white dark:bg-[#16162a] border border-slate-100 dark:border-[#22223a] rounded-3xl p-6 shadow-sm h-fit">
         <h2 className="text-lg font-black text-slate-900 dark:text-white mb-1">New Savings Goal</h2>
@@ -270,5 +302,6 @@ export default function GoalsPage({ currentUser }) {
         )}
       </div>
     </div>
+  </div>
   )
 }

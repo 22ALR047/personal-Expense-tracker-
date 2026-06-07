@@ -117,7 +117,7 @@ export default function AnalyticsPage({ transactions = [] }) {
   const [spendingTimeframe, setSpendingTimeframe] = useState('month')
 
   // Determine if we should use mock data for visual preview
-  const isDemoMode = transactions.length === 0
+  const isDemoMode = false
 
   // Filter transactions based on the selected timeframe
   const filteredTransactions = useMemo(() => {

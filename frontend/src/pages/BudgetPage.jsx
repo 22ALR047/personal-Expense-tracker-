@@ -4,14 +4,14 @@ const BUDGET_STORAGE_KEY = 'expense-tracker-budgets'
 
 // Categories must match TransactionsPage exactly
 const DEFAULT_BUDGETS = {
-  Groceries: { limit: 0 },
-  'Eating Out': { limit: 0 },
-  Transport: { limit: 0 },
-  Shopping: { limit: 0 },
-  Utilities: { limit: 0 },
-  Rent: { limit: 0 },
-  Entertainment: { limit: 0 },
-  Other: { limit: 0 },
+  Groceries: { limit: 2500000 },       // ₹25,000
+  'Eating Out': { limit: 1500000 },     // ₹15,000
+  Transport: { limit: 1000000 },        // ₹10,000
+  Shopping: { limit: 2000000 },         // ₹20,000
+  Utilities: { limit: 800000 },         // ₹8,000
+  Rent: { limit: 4000000 },             // ₹40,000
+  Entertainment: { limit: 500000 },      // ₹5,000
+  Other: { limit: 1200000 },            // ₹12,000
 }
 
 const COLORS = ['#207561', '#2fa882', '#4dc4a0', '#86d8c0', '#ff7ee2', '#d97706', '#3b82f6', '#f43f5e', '#6366f1', '#f97316', '#64748b', '#10b981', '#22c55e']

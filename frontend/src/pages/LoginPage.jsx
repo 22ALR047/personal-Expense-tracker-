@@ -475,7 +475,7 @@ export default function LoginPage({ onLogin }) {
               <p>Hello, friend! I&apos;m Expenso Tracker — a simpler way to track money with confidence.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="lp-form" noValidate>
+            <form onSubmit={handleSubmit} className="lp-form" noValidate autoComplete="off">
               <input
                 type="email"
                 value={email}
@@ -483,6 +483,7 @@ export default function LoginPage({ onLogin }) {
                 placeholder="Email"
                 className="lp-field"
                 required
+                autoComplete="off"
               />
 
               <div className="lp-pw-wrap">
@@ -568,7 +569,7 @@ export default function LoginPage({ onLogin }) {
                   <p className="fpm-subtitle">Enter your email and a new password to directly update your account.</p>
                 </div>
                 <div className="fpm-body">
-                  <form onSubmit={handleForgotSubmit} className="fpm-form" noValidate>
+                  <form onSubmit={handleForgotSubmit} className="fpm-form" noValidate autoComplete="off">
                     <input
                       type="email"
                       placeholder="Email Address"
@@ -576,6 +577,7 @@ export default function LoginPage({ onLogin }) {
                       onChange={e => setForgotEmail(e.target.value)}
                       className="lp-field"
                       required
+                      autoComplete="off"
                     />
 
                     <div className="lp-pw-wrap">

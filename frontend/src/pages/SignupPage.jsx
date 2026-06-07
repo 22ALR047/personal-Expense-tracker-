@@ -321,7 +321,7 @@ export default function SignupPage({ onLogin }) {
               <p>Hello, friend! I&apos;m Expenso Tracker — a simpler way to track money with confidence.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="signup-form" noValidate>
+            <form onSubmit={handleSubmit} className="signup-form" noValidate autoComplete="off">
               <div className="signup-input-wrapper">
                 <input
                   type="text"
@@ -330,6 +330,7 @@ export default function SignupPage({ onLogin }) {
                   placeholder="Full Name"
                   className="signup-input"
                   required
+                  autoComplete="off"
                 />
               </div>
 
@@ -341,6 +342,7 @@ export default function SignupPage({ onLogin }) {
                   placeholder="Email"
                   className="signup-input"
                   required
+                  autoComplete="off"
                 />
               </div>
 
