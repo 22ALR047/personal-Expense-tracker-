@@ -304,8 +304,7 @@ export default function SignupPage({ onLogin }) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to create account. Please try again.')
-      onLogin(data)
-      navigate('/dashboard')
+      navigate('/login', { state: { signupSuccess: true, email } })
     } catch (err) {
       setError(err.message)
     } finally {

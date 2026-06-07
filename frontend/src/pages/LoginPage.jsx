@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 
 /* ─────────────────────────── STYLES ─────────────────────────── */
 const css = `
@@ -374,7 +374,9 @@ const EyeOffIcon = () => (
 /* ─────────────────────────── COMPONENT ─────────────────────────── */
 export default function LoginPage({ onLogin }) {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const location = useLocation()
+  const signupSuccess = location.state?.signupSuccess || false
+  const [email, setEmail] = useState(location.state?.email || '')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
   const [error, setError] = useState('')
@@ -484,6 +486,21 @@ export default function LoginPage({ onLogin }) {
               <h1>Log in</h1>
               <p>Hello, friend! I&apos;m Expenso Tracker — a simpler way to track money with confidence.</p>
             </div>
+
+            {signupSuccess && (
+              <div className="lp-success" style={{
+                background: '#e8f5f0',
+                border: '1px solid #a7f3d0',
+                color: '#207561',
+                borderRadius: '12px',
+                padding: '11px 16px',
+                fontSize: '13px',
+                fontWeight: 500,
+                marginBottom: '16px'
+              }}>
+                🎉 Account created successfully! Please log in.
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="lp-form" noValidate autoComplete="off">
               <input
